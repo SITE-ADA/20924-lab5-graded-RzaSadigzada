@@ -87,8 +87,8 @@ public class EventServiceImpl implements EventService {
     public List<Event> getEventsByTag(String tag) {
          if (tag == null || tag.trim().isEmpty()) {
             System.err.println("The tag can't be null");
-        return List.of();
     }
+
     List<Event> events = eventRepository.findByTag(tag);
         return events != null ? events : Collections.emptyList();
     }
@@ -104,7 +104,6 @@ public class EventServiceImpl implements EventService {
         return allEvents.stream()
                 .filter(event -> event.getStartTime() != null && event.getStartTime().isAfter(now))
                 .collect(Collectors.toList());
-        return List.of();
     }
 
     @Override
@@ -116,14 +115,21 @@ public class EventServiceImpl implements EventService {
 
         List<Event> events = eventRepository.findByPriceRange(minPrice, maxPrice);
         return events != null ? events : Collections.emptyList();
-    
-       
-       return List.of();
     }
 
     @Override
     public List<Event> getEventsByDateRange(LocalDateTime start, LocalDateTime end) {
-        return List.of();
+       if (startDate == null || endDate == null) {
+        System.err.println("Start date and end date can't be null");
+        return Collections.emptyList();
+       }
+        if (startDate.isAfter(endDate)){
+            System.err.println("Start date can't be after the end date.");
+            return Collections.emptyList();
+        }
+        
+        List <event> events = eventRepository.findByDateRange(startDate,endDate);
+            return events != null ? events : Collections.emptyList();
     }
 
     @Override
