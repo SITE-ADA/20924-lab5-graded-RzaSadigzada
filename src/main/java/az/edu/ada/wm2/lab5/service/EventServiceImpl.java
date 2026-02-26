@@ -85,12 +85,16 @@ public class EventServiceImpl implements EventService {
     // Custom methods
     @Override
     public List<Event> getEventsByTag(String tag) {
+         if (tag == null || tag.trim().isEmpty()) {
+            System.err.println("The tag can't be null");
         return List.of();
     }
-
+    List<Event> events = eventRepository.findByTag(tag);
+        return events != null ? events : Collections.emptyList();
+    }
+    }
     @Override
     public List<Event> getUpcomingEvents() {
-        return List.of();
     }
 
     @Override
