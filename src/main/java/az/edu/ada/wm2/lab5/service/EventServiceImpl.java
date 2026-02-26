@@ -95,7 +95,16 @@ public class EventServiceImpl implements EventService {
     }
     @Override
     public List<Event> getUpcomingEvents() {
+        List<Event> allEvents = eventRepository.findAll(); 
         
+        if (allEvents == null || allEvents.isEmpty()) {
+            return Collections.emptyList(); 
+        }
+
+        return allEvents.stream()
+                .filter(event -> event.getStartTime() != null && event.getStartTime().isAfter(now))
+                .collect(Collectors.toList());
+        return List.of();
     }
 
     @Override
