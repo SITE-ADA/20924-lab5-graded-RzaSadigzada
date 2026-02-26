@@ -109,6 +109,15 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> getEventsByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
+        if (minPrice < 0 || maxPrice < 0 || minPrice > maxPrice) {
+            System.err.println("Invalid price range");
+            return Collections.emptyList(); 
+        }
+
+        List<Event> events = eventRepository.findByPriceRange(minPrice, maxPrice);
+        return events != null ? events : Collections.emptyList();
+    
+       
        return List.of();
     }
 
